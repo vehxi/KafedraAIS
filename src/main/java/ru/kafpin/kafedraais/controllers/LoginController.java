@@ -39,10 +39,28 @@ public class LoginController {
 
         // В учебной БД пароли хранятся в открытом виде в поле PasswordHash
         if (user != null && user.getPasswordHash().equals(password)) {
-            showError("Успешный вход! (Главное окно в разработке)", false);
-            // TODO: Переход на главное окно администратора
+            showError("Успешный вход!", false);
+            openMainWindow();
         } else {
             showError("Неверный логин или пароль", true);
+        }
+    }
+
+    private void openMainWindow() {
+        try {
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(ru.kafpin.kafedraais.HelloApplication.class.getResource("main-view.fxml"));
+            javafx.scene.Scene scene = new javafx.scene.Scene(loader.load(), 800, 600);
+            javafx.stage.Stage stage = new javafx.stage.Stage();
+            stage.setTitle("АИС Кафедра - Панель администратора");
+            stage.setScene(scene);
+            stage.show();
+            
+            // Закрываем окно логина
+            javafx.stage.Stage loginStage = (javafx.stage.Stage) loginButton.getScene().getWindow();
+            loginStage.close();
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+            showError("Ошибка загрузки главного окна", true);
         }
     }
 

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kafpin.kafedraais.controllers.MainController">
+    <children>
+        <VBox style="-fx-background-color: #2196F3;">
+            <padding>
+                <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
+            </padding>
+            <Label text="Панель администратора АИС «Кафедра»" textFill="WHITE">
+                <font>
+                    <Font name="System Bold" size="20.0" />
+                </font>
+            </Label>
+        </VBox>
+        <TabPane fx:id="mainTabPane" prefHeight="550.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+            <tabs>
+                <Tab text="Секции кафедры">
+                    <content>
+                        <VBox style="-fx-padding: 10;">
+                            <TableView fx:id="sectionsTable" VBox.vgrow="ALWAYS">
+                                <columns>
+                                    <TableColumn fx:id="sectionIdCol" prefWidth="50.0" text="ID" />
+                                    <TableColumn fx:id="sectionNameCol" prefWidth="250.0" text="Название секции" />
+                                    <TableColumn fx:id="sectionDescCol" prefWidth="400.0" text="Описание" />
+                                </columns>
+                            </TableView>
+                        </VBox>
+                    </content>
+                </Tab>
+                <Tab text="Преподаватели">
+                    <content>
+                        <VBox alignment="CENTER">
+                            <Label text="Таблица преподавателей в разработке..." textFill="#999999" />
+                        </VBox>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
+</VBox>
