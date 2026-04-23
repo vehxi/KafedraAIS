@@ -38,8 +38,28 @@
                 </Tab>
                 <Tab text="Преподаватели">
                     <content>
-                        <VBox alignment="CENTER">
-                            <Label text="Таблица преподавателей в разработке..." textFill="#999999" />
+                        <VBox style="-fx-padding: 10;">
+                            <TableView fx:id="teachersTable" VBox.vgrow="ALWAYS">
+                                <columns>
+                                    <TableColumn fx:id="teacherIdCol" prefWidth="50.0" text="ID" />
+                                    <TableColumn fx:id="teacherNameCol" prefWidth="250.0" text="ФИО" />
+                                    <TableColumn fx:id="teacherPositionCol" prefWidth="150.0" text="Должность" />
+                                    <TableColumn fx:id="teacherDegreeCol" prefWidth="150.0" text="Ученая степень" />
+                                </columns>
+                            </TableView>
+                        </VBox>
+                    </content>
+                </Tab>
+                <Tab text="Дисциплины (Курсы)">
+                    <content>
+                        <VBox style="-fx-padding: 10;">
+                            <TableView fx:id="coursesTable" VBox.vgrow="ALWAYS">
+                                <columns>
+                                    <TableColumn fx:id="courseIdCol" prefWidth="50.0" text="ID" />
+                                    <TableColumn fx:id="courseNameCol" prefWidth="300.0" text="Название" />
+                                    <TableColumn fx:id="courseSemesterCol" prefWidth="100.0" text="Семестр" />
+                                </columns>
+                            </TableView>
                         </VBox>
                     </content>
                 </Tab>

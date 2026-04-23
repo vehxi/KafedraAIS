@@ -6,40 +6,73 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import ru.kafpin.kafedraais.dao.CourseDAO;
 import ru.kafpin.kafedraais.dao.SectionDAO;
+import ru.kafpin.kafedraais.dao.TeacherDAO;
+import ru.kafpin.kafedraais.models.Course;
 import ru.kafpin.kafedraais.models.Section;
+import ru.kafpin.kafedraais.models.Teacher;
 
 import java.util.List;
 
 public class MainController {
 
-    @FXML
-    private TableView<Section> sectionsTable;
+    // --- Sections ---
+    @FXML private TableView<Section> sectionsTable;
+    @FXML private TableColumn<Section, Integer> sectionIdCol;
+    @FXML private TableColumn<Section, String> sectionNameCol;
+    @FXML private TableColumn<Section, String> sectionDescCol;
 
-    @FXML
-    private TableColumn<Section, Integer> sectionIdCol;
+    // --- Teachers ---
+    @FXML private TableView<Teacher> teachersTable;
+    @FXML private TableColumn<Teacher, Integer> teacherIdCol;
+    @FXML private TableColumn<Teacher, String> teacherNameCol;
+    @FXML private TableColumn<Teacher, String> teacherPositionCol;
+    @FXML private TableColumn<Teacher, String> teacherDegreeCol;
 
-    @FXML
-    private TableColumn<Section, String> sectionNameCol;
+    // --- Courses ---
+    @FXML private TableView<Course> coursesTable;
+    @FXML private TableColumn<Course, Integer> courseIdCol;
+    @FXML private TableColumn<Course, String> courseNameCol;
+    @FXML private TableColumn<Course, Integer> courseSemesterCol;
 
-    @FXML
-    private TableColumn<Section, String> sectionDescCol;
-
+    // --- DAOs ---
     private SectionDAO sectionDAO = new SectionDAO();
+    private TeacherDAO teacherDAO = new TeacherDAO();
+    private CourseDAO courseDAO = new CourseDAO();
 
     @FXML
     public void initialize() {
-        // Привязка столбцов к полям класса Section (используются геттеры getId, getName, getDescription)
+        // Инициализация колонок Секций
         sectionIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         sectionNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         sectionDescCol.setCellValueFactory(new PropertyValueFactory<>("description"));
 
-        loadSectionsData();
+        // Инициализация колонок Преподавателей
+        teacherIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        teacherNameCol.setCellValueFactory(new PropertyValueFactory<>("fullName"));
+        teacherPositionCol.setCellValueFactory(new PropertyValueFactory<>("position"));
+        teacherDegreeCol.setCellValueFactory(new PropertyValueFactory<>("academicDegree"));
+
+        // Инициализация колонок Курсов
+        courseIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        courseNameCol.setCellValueFactory(new PropertyValueFactory<>("courseName"));
+        courseSemesterCol.setCellValueFactory(new PropertyValueFactory<>("semester"));
+
+        loadAllData();
     }
 
-    private void loadSectionsData() {
+    private void loadAllData() {
+        // Секции
         List<Section> sections = sectionDAO.getAll();
-        ObservableList<Section> observableList = FXCollections.observableArrayList(sections);
-        sectionsTable.setItems(observableList);
+        sectionsTable.setItems(FXCollections.observableArrayList(sections));
+
+        // Преподаватели
+        List<Teacher> teachers = teacherDAO.getAll();
+        teachersTable.setItems(FXCollections.observableArrayList(teachers));
+
+        // Курсы
+        List<Course> courses = courseDAO.getAll();
+        coursesTable.setItems(FXCollections.observableArrayList(courses));
     }
 }
