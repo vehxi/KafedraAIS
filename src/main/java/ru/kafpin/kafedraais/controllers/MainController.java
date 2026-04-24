@@ -75,4 +75,75 @@ public class MainController {
         List<Course> courses = courseDAO.getAll();
         coursesTable.setItems(FXCollections.observableArrayList(courses));
     }
+
+    @FXML
+    private void handleAddSection() {
+        Section tempSection = new Section();
+        boolean okClicked = showSectionEditDialog(tempSection);
+        if (okClicked) {
+            sectionDAO.save(tempSection);
+            loadAllData(); // Обновляем таблицу
+        }
+    }
+
+    @FXML
+    private void handleEditSection() {
+        Section selectedSection = sectionsTable.getSelectionModel().getSelectedItem();
+        if (selectedSection != null) {
+            boolean okClicked = showSectionEditDialog(selectedSection);
+            if (okClicked) {
+                sectionDAO.update(selectedSection);
+                loadAllData();
+            }
+        } else {
+            // Ничего не выбрано
+            javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
+            alert.setTitle("Ничего не выбрано");
+            alert.setHeaderText("Секция не выбрана");
+            alert.setContentText("Пожалуйста, выберите секцию в таблице.");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void handleDeleteSection() {
+        int selectedIndex = sectionsTable.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            Section selectedSection = sectionsTable.getItems().get(selectedIndex);
+            sectionDAO.delete(selectedSection.getId());
+            sectionsTable.getItems().remove(selectedIndex);
+        } else {
+            // Ничего не выбрано
+            javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
+            alert.setTitle("Ничего не выбрано");
+            alert.setHeaderText("Секция не выбрана");
+            alert.setContentText("Пожалуйста, выберите секцию в таблице.");
+            alert.showAndWait();
+        }
+    }
+
+    private boolean showSectionEditDialog(Section section) {
+        try {
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(ru.kafpin.kafedraais.HelloApplication.class.getResource("section-form-view.fxml"));
+            javafx.scene.layout.VBox page = loader.load();
+
+            javafx.stage.Stage dialogStage = new javafx.stage.Stage();
+            dialogStage.setTitle("Редактирование секции");
+            dialogStage.initModality(javafx.stage.Modality.WINDOW_MODAL);
+            // dialogStage.initOwner(...); // Если нужно привязать к главному окну
+            javafx.scene.Scene scene = new javafx.scene.Scene(page);
+            dialogStage.setScene(scene);
+
+            SectionFormController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setSection(section);
+
+            dialogStage.showAndWait();
+
+            return controller.isSaveClicked();
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
