@@ -6,6 +6,8 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -33,6 +35,11 @@
                                     <TableColumn fx:id="sectionDescCol" prefWidth="400.0" text="Описание" />
                                 </columns>
                             </TableView>
+                            <HBox spacing="10.0" style="-fx-padding: 10 0 0 0;">
+                                <Button text="Добавить секцию" onAction="#handleAddSection" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+                                <Button text="Редактировать" onAction="#handleEditSection" />
+                                <Button text="Удалить" onAction="#handleDeleteSection" style="-fx-background-color: #F44336; -fx-text-fill: white;" />
+                            </HBox>
                         </VBox>
                     </content>
                 </Tab>
