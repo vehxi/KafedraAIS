@@ -54,6 +54,11 @@
                                     <TableColumn fx:id="teacherDegreeCol" prefWidth="150.0" text="Ученая степень" />
                                 </columns>
                             </TableView>
+                            <HBox spacing="10.0" style="-fx-padding: 10 0 0 0;">
+                                <Button text="Добавить преподавателя" onAction="#handleAddTeacher" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+                                <Button text="Редактировать" onAction="#handleEditTeacher" />
+                                <Button text="Удалить" onAction="#handleDeleteTeacher" style="-fx-background-color: #F44336; -fx-text-fill: white;" />
+                            </HBox>
                         </VBox>
                     </content>
                 </Tab>
