@@ -146,4 +146,74 @@ public class MainController {
             return false;
         }
     }
+
+    // --- Управление преподавателями ---
+
+    @FXML
+    private void handleAddTeacher() {
+        Teacher tempTeacher = new Teacher();
+        boolean okClicked = showTeacherEditDialog(tempTeacher);
+        if (okClicked) {
+            teacherDAO.save(tempTeacher);
+            loadAllData();
+        }
+    }
+
+    @FXML
+    private void handleEditTeacher() {
+        Teacher selectedTeacher = teachersTable.getSelectionModel().getSelectedItem();
+        if (selectedTeacher != null) {
+            boolean okClicked = showTeacherEditDialog(selectedTeacher);
+            if (okClicked) {
+                teacherDAO.update(selectedTeacher);
+                loadAllData();
+            }
+        } else {
+            javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
+            alert.setTitle("Ничего не выбрано");
+            alert.setHeaderText("Преподаватель не выбран");
+            alert.setContentText("Пожалуйста, выберите преподавателя в таблице.");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void handleDeleteTeacher() {
+        int selectedIndex = teachersTable.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            Teacher selectedTeacher = teachersTable.getItems().get(selectedIndex);
+            teacherDAO.delete(selectedTeacher.getId());
+            teachersTable.getItems().remove(selectedIndex);
+        } else {
+            javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
+            alert.setTitle("Ничего не выбрано");
+            alert.setHeaderText("Преподаватель не выбран");
+            alert.setContentText("Пожалуйста, выберите преподавателя в таблице.");
+            alert.showAndWait();
+        }
+    }
+
+    private boolean showTeacherEditDialog(Teacher teacher) {
+        try {
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(ru.kafpin.kafedraais.HelloApplication.class.getResource("teacher-form-view.fxml"));
+            javafx.scene.layout.VBox page = loader.load();
+
+            javafx.stage.Stage dialogStage = new javafx.stage.Stage();
+            dialogStage.setTitle("Редактирование преподавателя");
+            dialogStage.initModality(javafx.stage.Modality.WINDOW_MODAL);
+            javafx.scene.Scene scene = new javafx.scene.Scene(page);
+            dialogStage.setScene(scene);
+
+            TeacherFormController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setTeacher(teacher);
+
+            dialogStage.showAndWait();
+
+            return controller.isSaveClicked();
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
