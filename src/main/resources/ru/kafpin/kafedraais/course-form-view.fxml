@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="450.0" prefWidth="400.0" spacing="10.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kafpin.kafedraais.controllers.CourseFormController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <Label text="Название дисциплины:" />
+    <TextField fx:id="nameField" promptText="Например: Базы данных" />
+
+    <Label text="Описание/Программа:" />
+    <TextArea fx:id="descriptionArea" prefHeight="100.0" promptText="Краткое содержание курса" wrapText="true" />
+
+    <Label text="Семестр:" />
+    <TextField fx:id="semesterField" promptText="Только число (например, 3)" />
+
+    <Label text="Ведущий преподаватель:" />
+    <ComboBox fx:id="teacherComboBox" prefWidth="400.0" promptText="Выберите преподавателя" />
+
+    <HBox alignment="CENTER_RIGHT" spacing="10.0">
+        <padding>
+            <Insets top="15.0" />
+        </padding>
+        <Button mnemonicParsing="false" onAction="#handleCancel" text="Отмена" />
+        <Button mnemonicParsing="false" onAction="#handleSave" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Сохранить" />
+    </HBox>
+</VBox>
