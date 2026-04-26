@@ -72,6 +72,11 @@
                                     <TableColumn fx:id="courseSemesterCol" prefWidth="100.0" text="Семестр" />
                                 </columns>
                             </TableView>
+                            <HBox spacing="10.0" style="-fx-padding: 10 0 0 0;">
+                                <Button text="Добавить дисциплину" onAction="#handleAddCourse" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+                                <Button text="Редактировать" onAction="#handleEditCourse" />
+                                <Button text="Удалить" onAction="#handleDeleteCourse" style="-fx-background-color: #F44336; -fx-text-fill: white;" />
+                            </HBox>
                         </VBox>
                     </content>
                 </Tab>
