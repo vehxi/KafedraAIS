@@ -216,4 +216,74 @@ public class MainController {
             return false;
         }
     }
+
+    // --- Управление курсами (дисциплинами) ---
+
+    @FXML
+    private void handleAddCourse() {
+        Course tempCourse = new Course();
+        boolean okClicked = showCourseEditDialog(tempCourse);
+        if (okClicked) {
+            courseDAO.save(tempCourse);
+            loadAllData();
+        }
+    }
+
+    @FXML
+    private void handleEditCourse() {
+        Course selectedCourse = coursesTable.getSelectionModel().getSelectedItem();
+        if (selectedCourse != null) {
+            boolean okClicked = showCourseEditDialog(selectedCourse);
+            if (okClicked) {
+                courseDAO.update(selectedCourse);
+                loadAllData();
+            }
+        } else {
+            javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
+            alert.setTitle("Ничего не выбрано");
+            alert.setHeaderText("Дисциплина не выбрана");
+            alert.setContentText("Пожалуйста, выберите дисциплину в таблице.");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void handleDeleteCourse() {
+        int selectedIndex = coursesTable.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            Course selectedCourse = coursesTable.getItems().get(selectedIndex);
+            courseDAO.delete(selectedCourse.getId());
+            coursesTable.getItems().remove(selectedIndex);
+        } else {
+            javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
+            alert.setTitle("Ничего не выбрано");
+            alert.setHeaderText("Дисциплина не выбрана");
+            alert.setContentText("Пожалуйста, выберите дисциплину в таблице.");
+            alert.showAndWait();
+        }
+    }
+
+    private boolean showCourseEditDialog(Course course) {
+        try {
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(ru.kafpin.kafedraais.HelloApplication.class.getResource("course-form-view.fxml"));
+            javafx.scene.layout.VBox page = loader.load();
+
+            javafx.stage.Stage dialogStage = new javafx.stage.Stage();
+            dialogStage.setTitle("Редактирование дисциплины");
+            dialogStage.initModality(javafx.stage.Modality.WINDOW_MODAL);
+            javafx.scene.Scene scene = new javafx.scene.Scene(page);
+            dialogStage.setScene(scene);
+
+            CourseFormController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setCourse(course);
+
+            dialogStage.showAndWait();
+
+            return controller.isSaveClicked();
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
