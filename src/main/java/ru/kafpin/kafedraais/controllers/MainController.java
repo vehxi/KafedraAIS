@@ -40,6 +40,12 @@ public class MainController {
     private SectionDAO sectionDAO = new SectionDAO();
     private TeacherDAO teacherDAO = new TeacherDAO();
     private CourseDAO courseDAO = new CourseDAO();
+    private ru.kafpin.kafedraais.dao.StatsDAO statsDAO = new ru.kafpin.kafedraais.dao.StatsDAO();
+
+    // --- Statistics ---
+    @FXML private javafx.scene.control.Label statsTeachersLabel;
+    @FXML private javafx.scene.control.Label statsCoursesLabel;
+    @FXML private javafx.scene.control.Label statsMaterialsLabel;
 
     @FXML
     public void initialize() {
@@ -60,6 +66,15 @@ public class MainController {
         courseSemesterCol.setCellValueFactory(new PropertyValueFactory<>("semester"));
 
         loadAllData();
+        handleRefreshStats();
+    }
+
+    @FXML
+    private void handleRefreshStats() {
+        int[] stats = statsDAO.getDepartmentStats();
+        if (statsTeachersLabel != null) statsTeachersLabel.setText(String.valueOf(stats[0]));
+        if (statsCoursesLabel != null) statsCoursesLabel.setText(String.valueOf(stats[1]));
+        if (statsMaterialsLabel != null) statsMaterialsLabel.setText(String.valueOf(stats[2]));
     }
 
     private void loadAllData() {
